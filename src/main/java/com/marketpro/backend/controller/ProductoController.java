@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Controlador REST para la gestión de productos.
- */
 @RestController
 @RequestMapping("/api/productos")
+@CrossOrigin(origins = "*")
 public class ProductoController {
 
     private final ProductoService productoService;
@@ -19,25 +17,19 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
-    // Crear producto
-    @PostMapping
-    public Producto crearProducto(@RequestBody Producto producto) {
-        return productoService.guardarProducto(producto);
-    }
-
-    // Listar todos los productos
+    // GET - listar productos
     @GetMapping
     public List<Producto> listarProductos() {
         return productoService.listarProductos();
     }
 
-    // Buscar producto por ID
-    @GetMapping("/{id}")
-    public Producto obtenerProducto(@PathVariable Long id) {
-        return productoService.obtenerProductoPorId(id);
+    // POST - crear producto
+    @PostMapping
+    public Producto crearProducto(@RequestBody Producto producto) {
+        return productoService.guardarProducto(producto);
     }
 
-    // Eliminar producto
+    // DELETE - eliminar producto
     @DeleteMapping("/{id}")
     public void eliminarProducto(@PathVariable Long id) {
         productoService.eliminarProducto(id);
