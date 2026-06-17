@@ -8,30 +8,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/productos")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ProductoController {
 
-    private final ProductoService productoService;
+    private final ProductoService service;
 
-    public ProductoController(ProductoService productoService) {
-        this.productoService = productoService;
+    public ProductoController(ProductoService service) {
+        this.service = service;
     }
 
-    // GET - listar productos
     @GetMapping
-    public List<Producto> listarProductos() {
-        return productoService.listarProductos();
+    public List<Producto> listar() {
+        return service.listar();
     }
 
-    // POST - crear producto
-    @PostMapping
-    public Producto crearProducto(@RequestBody Producto producto) {
-        return productoService.guardarProducto(producto);
+    // ✅ CREAR PRODUCTO CON CATEGORÍA
+    @PostMapping("/{categoriaId}")
+    public Producto crear(@RequestBody Producto producto,
+                          @PathVariable Long categoriaId) {
+        return service.guardar(producto, categoriaId);
     }
 
-    // DELETE - eliminar producto
     @DeleteMapping("/{id}")
-    public void eliminarProducto(@PathVariable Long id) {
-        productoService.eliminarProducto(id);
+    public void eliminar(@PathVariable Long id) {
+        service.eliminar(id);
     }
 }
